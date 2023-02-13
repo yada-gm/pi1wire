@@ -1,3 +1,5 @@
+This is a private fork of oiriginal repo, patched to add 25C POR value.
+
 pi1wire
 =====
 
