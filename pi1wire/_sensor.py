@@ -24,7 +24,7 @@ class OneWire(OneWireInterface):
     def __init__(self, mac_address: str, driver: W1DriverInterface):
         self._mac_address = mac_address
         self._driver = driver
-        self._power_on_reset_value = 85000
+        self._power_on_reset_values = [85000, 25000]
         self._second_try = False
 
     def get_temperature(self) -> float:
@@ -34,7 +34,7 @@ class OneWire(OneWireInterface):
             self._second_try = False  # reset
             raise InvalidCRCException(f'Invalid CRC [{crc}]')
         value = int(raw_value)
-        if value == self._power_on_reset_value and not self._second_try:
+        if value in self._power_on_reset_values and not self._second_try:
             # Just to be sure: try a re-read because we read a PowerOnResetValue
             self._second_try = True  # Prevent from endless loop
             return self.get_temperature()
